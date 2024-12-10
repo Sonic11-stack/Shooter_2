@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class AmmunitionOfWeaponPistol : MonoBehaviour
+public class AmmunitionOfSniperRifle : MonoBehaviour
 {
-    [SerializeField] private int inventory = 8;
-    [SerializeField] private int maxInventory = 8;
+    [SerializeField] private int inventory = 5;
+    [SerializeField] private int maxInventory = 5;
     [SerializeField] private int inventoryZero = 0;
-    [SerializeField] private int replenishment = 4;
-    [SerializeField] private int total = 10;
+    [SerializeField] private int replenishment = 3;
+    [SerializeField] private int total = 5;
 
     [SerializeField] private TextMeshProUGUI inventoryText;
+    
 
     [SerializeField] private TakingThing thing;
-    [SerializeField] private MakeSoundPistol soundPistol;
+    [SerializeField] private MakeSoundSniperRifle soundSniper;
 
     private bool canFire = true;
 
@@ -30,7 +31,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             StartCoroutine(ReloadWeapons());
             UpdateInventoryText();
-            soundPistol.PlaySecondMusic();
+            soundSniper.PlaySecondMusic();
         }
 
         if (Input.GetMouseButtonDown(0) && canFire == true)
@@ -41,7 +42,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     public IEnumerator ReloadWeapons()
     {
         canFire = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(4f);
 
         if (inventory == maxInventory)
         {
@@ -61,6 +62,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
                 inventory += total;
                 total = 0;
             }
+
             canFire = true;
             Debug.Log("Weapons reloaded!");
             UpdateInventoryText();
@@ -79,7 +81,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             return;
         }
-        soundPistol.PlayFirstMusic();
+        soundSniper.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();
         Debug.Log("Player shoot!");
@@ -100,5 +102,4 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     {
         inventoryText.text = $"{inventory} / {total}";
     }
-    
 }

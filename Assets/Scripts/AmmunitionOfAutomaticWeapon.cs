@@ -3,49 +3,77 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class AmmunitionOfWeaponPistol : MonoBehaviour
+public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 {
-    [SerializeField] private int inventory = 8;
-    [SerializeField] private int maxInventory = 8;
+    [SerializeField] private int inventory = 30;
+    [SerializeField] private int maxInventory = 30;
     [SerializeField] private int inventoryZero = 0;
-    [SerializeField] private int replenishment = 4;
-    [SerializeField] private int total = 10;
+    [SerializeField] private int replenishment = 60;
+    [SerializeField] private int total = 60;
 
     [SerializeField] private TextMeshProUGUI inventoryText;
 
     [SerializeField] private TakingThing thing;
-    [SerializeField] private MakeSoundPistol soundPistol;
+    [SerializeField] private MakeSoundAutomaticWeapon soundAutomaticWeapon;
+
+    private float fireRate = 0.2f; 
+    private float nextFireTime = 0f; 
 
     private bool canFire = true;
+    
 
     private void Start()
     {
         UpdateInventoryText();
     }
-    public void Update()
+
+    private void Update()
     {
         UpdateInventoryText();
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            canFire = false;
             StartCoroutine(ReloadWeapons());
             UpdateInventoryText();
-            soundPistol.PlaySecondMusic();
+            soundAutomaticWeapon.PlaySecondMusic();
         }
 
-        if (Input.GetMouseButtonDown(0) && canFire == true)
+        if (Input.GetMouseButton(0) && canFire == true)
         {
-            Shoot();
+            if (!soundAutomaticWeapon.isShooting)
+            {
+                soundAutomaticWeapon.isShooting = true;
+                soundAutomaticWeapon.PlayFirstMusic(); 
+            }
+
+
+            if (Time.time >= nextFireTime) 
+            {
+                nextFireTime = Time.time + fireRate; 
+                Shoot(); 
+            }
+        }
+        if (Input.GetMouseButtonUp(0) || inventory == 0) 
+        {
+            if (soundAutomaticWeapon.isShooting)
+            {
+                soundAutomaticWeapon.isShooting = false;
+                soundAutomaticWeapon.StopShootingMusic(); 
+            }
         }
     }
+
     public IEnumerator ReloadWeapons()
     {
         canFire = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         if (inventory == maxInventory)
         {
+            
             Debug.Log("Weapons reloaded!");
+
         }
         else if (inventory < maxInventory && total > 0)
         {
@@ -77,15 +105,16 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     {
         if (inventory == inventoryZero)
         {
+            Debug.Log("Out of ammo!");
             return;
         }
-        soundPistol.PlayFirstMusic();
+        soundAutomaticWeapon.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();
         Debug.Log("Player shoot!");
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullets"))
         {
@@ -100,5 +129,4 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     {
         inventoryText.text = $"{inventory} / {total}";
     }
-    
 }
