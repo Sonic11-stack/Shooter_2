@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -9,6 +10,21 @@ public class Health : MonoBehaviour
     [SerializeField] private int firstAidKit = 50;
 
     [SerializeField] private int hit = 30;
+
+    [SerializeField] private TextMeshProUGUI healthText;
+
+    [SerializeField] private TakingThing thing;
+
+
+    private void Start()
+    {
+        UpdateHealthText();
+    }
+
+    private void Update()
+    {
+        UpdateHealthText();
+    }
 
     public void GetHealth()
     {
@@ -32,8 +48,16 @@ public class Health : MonoBehaviour
         if (other.CompareTag("firstAidKit"))
         {
             GetHealth();
+            thing.PlayThingMusic();
             Debug.Log("Player take the first aid kit!");
             Destroy(other.gameObject);
         }
     }
+
+    private void UpdateHealthText()
+    {
+        healthText.text = $"{health}";
+    }
+
+    
 }

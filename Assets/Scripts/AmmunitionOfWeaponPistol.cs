@@ -20,10 +20,20 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     [SerializeField] private AudioClip audioClip_1;
     private AudioSource audioSource_1;
 
+    
+
+    [SerializeField] private TakingThing thing;
+
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        audioSource_1 = GetComponent<AudioSource>();
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        if (audioSources.Length >= 2)
+        {
+            audioSource = audioSources[0];
+            audioSource_1 = audioSources[1];
+            
+        }
 
         if (audioClip != null)
         {
@@ -34,6 +44,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             audioSource_1.clip = audioClip_1;
         }
+
+        
 
         UpdateInventoryText();
         UpdateInventoryTotalText();
@@ -50,7 +62,6 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            PlayFirstMusic();
             Shoot();
         }
     }
@@ -94,6 +105,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             return;
         }
+        PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();
         Debug.Log("Player shoot!");
@@ -104,6 +116,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         if (other.CompareTag("Bullets"))
         {
             Debug.Log("Player take the bullets!");
+            thing.PlayThingMusic();
             GetBullets();
             Destroy(other.gameObject);
         }
@@ -133,4 +146,5 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
             audioSource_1.Play();
         }
     }
+    
 }
