@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponList : MonoBehaviour
 {
@@ -11,10 +12,11 @@ public class WeaponList : MonoBehaviour
         public int damage;  
         public float range; 
         public GameObject weaponObject; 
-        public MonoBehaviour specificScript; 
+        public MonoBehaviour specificScript;
+        public GameObject weaponIcon;
     }
 
-    public List<Weapon> weapons = new List<Weapon>(); 
+    public List<Weapon> weapons = new List<Weapon>();
 
     private int currentWeaponIndex = 0; 
 
@@ -27,7 +29,8 @@ public class WeaponList : MonoBehaviour
             damage = 100,
             range = 30f,
             weaponObject = GameObject.Find("SniperRifle"),
-            specificScript = GetComponent<AmmunitionOfSniperRifle>() 
+            specificScript = GetComponent<AmmunitionOfSniperRifle>(),
+            weaponIcon = GameObject.Find("ImageSniperRifle")
         });
 
         weapons.Add(new Weapon
@@ -36,7 +39,8 @@ public class WeaponList : MonoBehaviour
             damage = 30,
             range = 15.0f,
             weaponObject = GameObject.Find("AutomaticWeapon"),
-            specificScript = GetComponent<AmmunitionOfAutomaticWeapon>() 
+            specificScript = GetComponent<AmmunitionOfAutomaticWeapon>(),
+            weaponIcon = GameObject.Find("ImageAutomaticWeapon")
         });
 
         weapons.Add(new Weapon
@@ -45,7 +49,8 @@ public class WeaponList : MonoBehaviour
             damage = 20,
             range = 10.0f,
             weaponObject = GameObject.Find("Pistol"),
-            specificScript = GetComponent<AmmunitionOfWeaponPistol>() 
+            specificScript = GetComponent<AmmunitionOfWeaponPistol>(),
+            weaponIcon = GameObject.Find("ImagePistol")
         });
 
         ActivateWeapon(currentWeaponIndex);
@@ -75,17 +80,16 @@ public class WeaponList : MonoBehaviour
     {
         for (int i = 0; i < weapons.Count; i++)
         {
-            if (i == index)
+            bool isActive = (i == index);
+            weapons[i].weaponObject.SetActive(isActive);
+            ToggleSpecificScript(weapons[i].specificScript, isActive);
+
+            if (weapons[i].weaponIcon != null)
             {
-                weapons[i].weaponObject.SetActive(true);
-                ToggleSpecificScript(weapons[i].specificScript, true); 
-            }
-            else
-            {
-                weapons[i].weaponObject.SetActive(false);
-                ToggleSpecificScript(weapons[i].specificScript, false); 
+                weapons[i].weaponIcon.SetActive(isActive); 
             }
         }
+
         DisplayCurrentWeapon();
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 
     [SerializeField] private TakingThing thing;
     [SerializeField] private MakeSoundAutomaticWeapon soundAutomaticWeapon;
+
+    [SerializeField] private Sprite image;
 
     private float fireRate = 0.2f; 
     private float nextFireTime = 0f; 

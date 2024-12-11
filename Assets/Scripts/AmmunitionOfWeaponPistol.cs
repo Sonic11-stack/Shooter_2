@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AmmunitionOfWeaponPistol : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     [SerializeField] private TakingThing thing;
     [SerializeField] private MakeSoundPistol soundPistol;
+
+    [SerializeField] private Sprite image;
 
     private bool canFire = true;
 
