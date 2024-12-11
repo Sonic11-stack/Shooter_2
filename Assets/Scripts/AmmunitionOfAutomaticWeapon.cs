@@ -33,10 +33,12 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            canFire = false;
-            StartCoroutine(ReloadWeapons());
+            if (total > 0)
+            {
+                StartCoroutine(ReloadWeapons());
+                soundAutomaticWeapon.PlaySecondMusic();
+            }
             UpdateInventoryText();
-            soundAutomaticWeapon.PlaySecondMusic();
         }
 
         if (Input.GetMouseButton(0) && canFire == true)

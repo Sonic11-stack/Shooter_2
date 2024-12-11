@@ -29,14 +29,17 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(ReloadWeapons());
+            if (total > 0)
+            {
+                StartCoroutine(ReloadWeapons());
+                soundSniper.PlaySecondMusic();
+            }
             UpdateInventoryText();
-            soundSniper.PlaySecondMusic();
         }
 
         if (Input.GetMouseButtonDown(0) && canFire == true)
         {
-            Shoot();
+            StartCoroutine(ShootWithCooldown());
         }
     }
     public IEnumerator ReloadWeapons()
@@ -75,12 +78,21 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         UpdateInventoryText();
     }
 
-    public void Shoot()
+    private IEnumerator ShootWithCooldown()
     {
         if (inventory == inventoryZero)
         {
-            return;
+            yield break; 
         }
+
+        canFire = false; 
+        Shoot(); 
+        yield return new WaitForSeconds(1f); 
+        canFire = true; 
+    }
+
+    public void Shoot()
+    {
         soundSniper.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();

@@ -28,14 +28,18 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(ReloadWeapons());
+            if (total > 0) 
+            {
+                StartCoroutine(ReloadWeapons());
+                soundPistol.PlaySecondMusic();
+            }
             UpdateInventoryText();
-            soundPistol.PlaySecondMusic();
+            
         }
 
         if (Input.GetMouseButtonDown(0) && canFire == true)
         {
-            Shoot();
+            StartCoroutine(ShootWithCooldown());
         }
     }
     public IEnumerator ReloadWeapons()
@@ -46,6 +50,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         if (inventory == maxInventory)
         {
             Debug.Log("Weapons reloaded!");
+            canFire = true;
+            yield return new WaitForSeconds(0f);
         }
         else if (inventory < maxInventory && total > 0)
         {
@@ -73,12 +79,21 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         UpdateInventoryText();
     }
 
-    public void Shoot()
+    private IEnumerator ShootWithCooldown()
     {
         if (inventory == inventoryZero)
         {
-            return;
+            yield break;
         }
+
+        canFire = false;
+        Shoot();
+        yield return new WaitForSeconds(1f);
+        canFire = true;
+    }
+
+    public void Shoot()
+    {
         soundPistol.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();
