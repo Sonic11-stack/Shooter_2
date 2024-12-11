@@ -7,6 +7,13 @@ public class GrenadeThrower : MonoBehaviour
     [SerializeField] private GameObject grenadePrefab; 
     [SerializeField] private Transform throwPoint; 
     [SerializeField] private float throwForce = 10f; 
+    [SerializeField] private float upwardForce = 2f; 
+
+
+    private void Start()
+    {
+        
+    }
 
     void Update()
     {
@@ -23,7 +30,8 @@ public class GrenadeThrower : MonoBehaviour
         Rigidbody rb = grenade.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(throwPoint.forward * throwForce, ForceMode.VelocityChange);
+            Vector3 forceDirection = throwPoint.forward * throwForce + throwPoint.up * upwardForce;
+            rb.AddForce(forceDirection, ForceMode.VelocityChange);
         }
     }
 }
