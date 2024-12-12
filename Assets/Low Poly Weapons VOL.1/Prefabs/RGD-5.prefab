@@ -176,7 +176,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1698056052845220}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8851f8ad2c9850844bb7747ea28add09, type: 3}
   m_Name: 
@@ -185,8 +185,9 @@ MonoBehaviour:
   explosionRadius: 5
   explosionForce: 700
   explosionEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
-  explosionSound: {fileID: 8300000, guid: c1099319c8a0dc14f9c632ff6a31a389, type: 3}
-  audioSource: {fileID: 3913634684468615521}
+  objectToDestroy: {fileID: 1698056052845220}
+  explodeGrenade: 0
+  makeSoundExplosion: {fileID: 0}
 --- !u!82 &3913634684468615521
 AudioSource:
   m_ObjectHideFlags: 0
@@ -194,7 +195,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1698056052845220}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c1099319c8a0dc14f9c632ff6a31a389, type: 3}

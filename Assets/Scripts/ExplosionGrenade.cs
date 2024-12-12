@@ -9,13 +9,18 @@ public class ExplosionGrenade : MonoBehaviour
     [SerializeField] private float explosionForce = 700f; 
     [SerializeField] private GameObject explosionEffect;
 
+    public GameObject objectToDestroy;
+
+    public bool explodeGrenade = false;
+
+    [SerializeField] private GrenadeThrower grenadeThrower;
 
     [SerializeField] private MakeSoundExplosion makeSoundExplosion;
     
 
     private void Start()
     {
-        makeSoundExplosion = GetComponent<MakeSoundExplosion>();
+        makeSoundExplosion = gameObject.AddComponent<MakeSoundExplosion>();
 
         Invoke(nameof(Explode), explosionDelay);
     }
@@ -24,8 +29,9 @@ public class ExplosionGrenade : MonoBehaviour
     {
         if (explosionEffect != null)
         {
-            makeSoundExplosion.PlayFirstMusic();
+            //makeSoundExplosion.PlayFirstMusic();
             GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            explosion.transform.position = grenadeThrower.grenade.transform.position;
             Destroy(explosion, 2f);
         }
 
@@ -40,7 +46,13 @@ public class ExplosionGrenade : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        if (objectToDestroy != null)
+        {
+            Destroy(grenadeThrower.grenade); 
+            objectToDestroy = null; 
+        }
+
+        explodeGrenade = true;
     }
 
     private void OnDrawGizmosSelected()
