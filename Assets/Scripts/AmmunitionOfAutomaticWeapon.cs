@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
 
     [SerializeField] private Sprite image;
 
+    [SerializeField] private Reload reload;
+
     private float fireRate = 0.2f; 
     private float nextFireTime = 0f; 
 
@@ -28,6 +31,7 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
     private void Start()
     {
         UpdateInventoryText();
+        
     }
 
     private void Update()
@@ -38,6 +42,7 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
         {
             if (total > 0)
             {
+                reload.weaponIcon.SetActive(true);
                 StartCoroutine(ReloadWeapons());
                 soundAutomaticWeapon.PlaySecondMusic();
             }
@@ -97,6 +102,7 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
             canFire = true;
             Debug.Log("Weapons reloaded!");
             UpdateInventoryText();
+            reload.weaponIcon.SetActive(false);
         }
     }
 

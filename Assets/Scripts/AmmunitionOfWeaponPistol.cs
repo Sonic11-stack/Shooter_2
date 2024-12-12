@@ -19,6 +19,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     [SerializeField] private Sprite image;
 
+    [SerializeField] private Reload reload;
+
     private bool canFire = true;
 
     private void Start()
@@ -33,6 +35,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             if (total > 0) 
             {
+                reload.weaponIcon.SetActive(true);
                 StartCoroutine(ReloadWeapons());
                 soundPistol.PlaySecondMusic();
             }
@@ -73,6 +76,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
             canFire = true;
             Debug.Log("Weapons reloaded!");
             UpdateInventoryText();
+            reload.weaponIcon.SetActive(false);
         }
     }
 

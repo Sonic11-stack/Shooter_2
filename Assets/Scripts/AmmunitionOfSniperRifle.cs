@@ -20,6 +20,8 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     [SerializeField] private Sprite image;
 
+    [SerializeField] private Reload reload;
+
     private bool canFire = true;
 
     private void Start()
@@ -34,6 +36,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         {
             if (total > 0)
             {
+                reload.weaponIcon.SetActive(true);
                 StartCoroutine(ReloadWeapons());
                 soundSniper.PlaySecondMusic();
             }
@@ -72,6 +75,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
             canFire = true;
             Debug.Log("Weapons reloaded!");
             UpdateInventoryText();
+            reload.weaponIcon.SetActive(false);
         }
     }
 
