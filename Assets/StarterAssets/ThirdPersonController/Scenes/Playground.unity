@@ -1150,13 +1150,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionDelay: 3
-  explosionRadius: 5
+  explosionRadius: 7
   explosionForce: 700
   explosionEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
+  hit: 60
   objectToDestroy: {fileID: 1698056052845220, guid: 5a2bf64643e1fb0439ea39c0fc9b00ff, type: 3}
   explodeGrenade: 0
+  objectToDisable: {fileID: 741234957}
   grenadeThrower: {fileID: 1762682289}
   makeSoundExplosion: {fileID: 741234960}
+  health: {fileID: 1762682267}
+  explo: {fileID: 741234958}
 --- !u!82 &741234959
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3299,6 +3303,7 @@ MonoBehaviour:
   upwardForce: 2
   scriptToEnable: {fileID: 741234957}
   grenade: {fileID: 1698056052845220, guid: 5a2bf64643e1fb0439ea39c0fc9b00ff, type: 3}
+  expl: {fileID: 741234958}
 --- !u!95 &1762682294 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6982812146204527121, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}

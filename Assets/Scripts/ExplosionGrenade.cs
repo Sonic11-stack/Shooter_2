@@ -5,24 +5,40 @@ using UnityEngine;
 public class ExplosionGrenade : MonoBehaviour
 {
     [SerializeField] private float explosionDelay = 3f; 
-    [SerializeField] private float explosionRadius = 5f; 
+    [SerializeField] private float explosionRadius = 7f; 
     [SerializeField] private float explosionForce = 700f; 
     [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private int hit = 60;
 
     public GameObject objectToDestroy;
 
     public bool explodeGrenade = false;
 
+    private bool isInvoked = false;
+
+    public GameObject objectToDisable;
+
     [SerializeField] private GrenadeThrower grenadeThrower;
 
     [SerializeField] private MakeSoundExplosion makeSoundExplosion;
-    
+
+    [SerializeField] private Health health;
+
+    [SerializeField] private ExplosionGrenade explo;
+
 
     private void Start()
     {
         makeSoundExplosion = gameObject.AddComponent<MakeSoundExplosion>();
+    }
 
-        Invoke(nameof(Explode), explosionDelay);
+    public void TriggerExplosion() 
+    {
+        if (!isInvoked)
+        {
+            isInvoked = true;
+            Invoke(nameof(Explode), explosionDelay);
+        }
     }
 
     private void Explode()
@@ -32,7 +48,9 @@ public class ExplosionGrenade : MonoBehaviour
             //makeSoundExplosion.PlayFirstMusic();
             GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
             explosion.transform.position = grenadeThrower.grenade.transform.position;
+            explo.transform.position = grenadeThrower.grenade.transform.position;
             Destroy(explosion, 2f);
+            //  grenadeThrower.scriptToEnable.SetActive(false);
         }
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -44,15 +62,32 @@ public class ExplosionGrenade : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
+
+            if (nearbyObject.CompareTag("Player"))
+            {
+               
+                    health.health -= hit;
+                
+            }
         }
 
         if (objectToDestroy != null)
         {
             Destroy(grenadeThrower.grenade); 
-            objectToDestroy = null; 
+            
         }
 
+        Invoke(nameof(DisableObject), 2f);
+
         explodeGrenade = true;
+        isInvoked = false;
+    }
+    private void DisableObject()
+    {
+        if (objectToDisable != null)
+        {
+            objectToDisable.SetActive(false);
+        }
     }
 
     private void OnDrawGizmosSelected()

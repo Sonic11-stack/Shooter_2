@@ -9,9 +9,11 @@ public class GrenadeThrower : MonoBehaviour
     [SerializeField] private float throwForce = 10f; 
     [SerializeField] private float upwardForce = 2f;
 
-    [SerializeField] private GameObject scriptToEnable;
+    [SerializeField] public GameObject scriptToEnable;
 
     [SerializeField] public GameObject grenade;
+
+    [SerializeField] public ExplosionGrenade expl;
 
     private void Start()
     {
@@ -26,7 +28,7 @@ public class GrenadeThrower : MonoBehaviour
             {
                 scriptToEnable.SetActive(true);
             }
-
+            expl.TriggerExplosion();
             ThrowGrenade();
         }
     }
