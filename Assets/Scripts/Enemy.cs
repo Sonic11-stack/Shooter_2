@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] public int health = 100;
+    [SerializeField] public float health = 100f;
     
+    public Image bar;
 
     [SerializeField] public int hit = 30;
 
@@ -24,6 +26,7 @@ public class Enemy : MonoBehaviour
         {
             health -= hit;
             Debug.Log($"Çהמנמגüו גנאדא = {health}");
+            bar.fillAmount = health / 100;
         }
     }
     

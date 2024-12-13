@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject dentBullet;
 
-   
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,9 +28,9 @@ public class Bullet : MonoBehaviour
 
             Vector3 hitNormal = (transform.position - other.ClosestPoint(transform.position)).normalized;
 
-            Quaternion rotation = Quaternion.LookRotation(hitNormal) * Quaternion.Euler(0, 0, 90);
+            Quaternion rotation = Quaternion.LookRotation(hitNormal);
 
-            Instantiate(dentBullet, hitPoint, rotation);
+            Instantiate(dentBullet, hitPoint, rotation * Quaternion.Euler(0, 0, 0));
 
             Destroy(gameObject);
         }
