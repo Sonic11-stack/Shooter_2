@@ -12,6 +12,16 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private int replenishment = 3;
     [SerializeField] private int total = 5;
 
+    [SerializeField] private GameObject bulletPrefab; 
+    [SerializeField] private Transform shootPoint;    
+    [SerializeField] private float bulletSpeed = 20f; 
+    [SerializeField] private float bulletLifetime = 2f; 
+    [SerializeField] private float maxDistance = 30f; 
+
+    [SerializeField] private Camera camera;
+
+    [SerializeField] private GameObject flash;
+
     [SerializeField] private TextMeshProUGUI inventoryText;
     
 
@@ -26,6 +36,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     private void Start()
     {
+        camera = GetComponent<Camera>();
         UpdateInventoryText();
     }
     public void Update()
@@ -48,6 +59,42 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
             StartCoroutine(ShootWithCooldown());
         }
     }
+
+    
+    private void ShootBullet()
+    {
+        GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * Quaternion.Euler(90, 0, 0));
+
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = shootPoint.forward * bulletSpeed;
+        }
+
+        StartCoroutine(DestroyBulletAfterDistance(bullet));
+    }
+
+    private IEnumerator DestroyBulletAfterDistance(GameObject bullet)
+    {
+        float traveledDistance = 0f;
+        Vector3 lastPosition = bullet.transform.position;
+
+        while (traveledDistance < maxDistance)
+        {
+            yield return null; 
+            if (bullet == null) yield break;
+
+            traveledDistance += Vector3.Distance(lastPosition, bullet.transform.position);
+            lastPosition = bullet.transform.position;
+        }
+
+        if (bullet != null)
+        {
+            Destroy(bullet);
+        }
+    }
+
     public IEnumerator ReloadWeapons()
     {
         canFire = false;
@@ -100,6 +147,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     public void Shoot()
     {
+        ShootBullet();
         soundSniper.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();
