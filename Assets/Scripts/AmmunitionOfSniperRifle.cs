@@ -13,7 +13,10 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private int total = 5;
 
     [SerializeField] private GameObject bulletPrefab; 
-    [SerializeField] private Transform shootPoint;    
+    [SerializeField] private Transform shootPoint;
+    [SerializeField] private Transform shootPoint1;
+    [SerializeField] private GameObject shootPoint_1;
+    [SerializeField] private GameObject shootPoint_1_2;
     [SerializeField] private float bulletSpeed = 20f; 
     [SerializeField] private float bulletLifetime = 2f; 
     [SerializeField] private float maxDistance = 30f; 
@@ -31,6 +34,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private Sprite image;
 
     [SerializeField] private GameObject imageGoal;
+
 
     [SerializeField] private Reload reload;
 
@@ -57,6 +61,8 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         {
             if (Input.GetMouseButton(1))
             {
+                shootPoint_1.SetActive(false);
+                shootPoint_1_2.SetActive(true);
                 mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, Time.deltaTime * zoomSpeed);
                 imageGoal.SetActive(false);
                 //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f;
@@ -68,6 +74,8 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
             else {
                 mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, Time.deltaTime * zoomSpeed);
+                shootPoint_1.SetActive(true);
+                shootPoint_1_2.SetActive(false);
                 imageGoal.SetActive(true);
                 //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f + cameraTransform.up * -0.3f;
                 itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * -0.4f + cameraTransform.right * 0.4f + cameraTransform.up * -0.3f;
@@ -117,6 +125,36 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         }
 
         StartCoroutine(DestroyBulletAfterDistance(bullet));
+    }
+
+    private void ShootBullet1()
+    {
+        GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
+
+        GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+
+        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+    Vector3 targetPoint;
+    if (Physics.Raycast(ray, out hit, maxDistance))
+    {
+        targetPoint = hit.point; 
+    }
+    else
+    {
+        targetPoint = ray.GetPoint(maxDistance); 
+    }
+
+    Vector3 direction = (targetPoint - shootPoint.position).normalized;
+
+    Rigidbody rb = bullet.GetComponent<Rigidbody>();
+    if (rb != null)
+    {
+        rb.velocity = direction * bulletSpeed;
+    }
+
+    Destroy(bullet, bulletLifetime);
     }
 
     private IEnumerator DestroyBulletAfterDistance(GameObject bullet)
@@ -191,11 +229,22 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     public void Shoot()
     {
-        ShootBullet();
-        soundSniper.PlayFirstMusic();
-        inventory -= 1;
-        UpdateInventoryText();
-        Debug.Log("Player shoot!");
+        if (shootPoint_1 == false)
+        {
+            ShootBullet1();
+            soundSniper.PlayFirstMusic();
+            inventory -= 1;
+            UpdateInventoryText();
+            Debug.Log("Player shoot!");
+        }
+        else
+        {
+            ShootBullet();
+            soundSniper.PlayFirstMusic();
+            inventory -= 1;
+            UpdateInventoryText();
+            Debug.Log("Player shoot!");
+        }
     }
 
     void OnTriggerEnter(Collider other)
