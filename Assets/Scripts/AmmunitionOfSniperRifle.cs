@@ -12,6 +12,8 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private int replenishment = 3;
     [SerializeField] private int total = 5;
 
+    [SerializeField] public int hit = 100;
+
     [SerializeField] private GameObject bulletPrefab; 
     [SerializeField] private Transform shootPoint;
     [SerializeField] private Transform shootPoint1;
@@ -113,10 +115,16 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
 
     
-    private void ShootBullet()
+    private void ShootBullet(string type)
     {
         GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * Quaternion.Euler(90, 0, 0));
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        if (bulletScript != null)
+        {
+            bulletScript.bulletType = type;
+        }
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
@@ -239,7 +247,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         }
         else
         {
-            ShootBullet();
+            ShootBullet("Sniper");
             soundSniper.PlayFirstMusic();
             inventory -= 1;
             UpdateInventoryText();

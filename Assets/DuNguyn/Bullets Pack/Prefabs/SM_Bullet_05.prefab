@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dentBullet: {fileID: 100002, guid: 340415d7c9cb15544af541cf96e973bd, type: 3}
+  bulletType: Automatic
 --- !u!1 &3585594593242577515
 GameObject:
   m_ObjectHideFlags: 0

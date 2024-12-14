@@ -8,12 +8,15 @@ public class GrenadeThrower : MonoBehaviour
     [SerializeField] private Transform throwPoint; 
     [SerializeField] private float throwForce = 10f; 
     [SerializeField] private float upwardForce = 2f;
+    [SerializeField] private float grenadeCooldown = 6f;
 
     [SerializeField] public GameObject scriptToEnable;
 
     [SerializeField] public GameObject grenade;
 
     [SerializeField] public ExplosionGrenade expl;
+
+    private bool canThrowGrenade = true;
 
     private void Start()
     {
@@ -22,7 +25,7 @@ public class GrenadeThrower : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1)) 
+        if (Input.GetKeyDown(KeyCode.F) && canThrowGrenade) 
         {
             if (scriptToEnable != null)
             {
@@ -43,5 +46,14 @@ public class GrenadeThrower : MonoBehaviour
             Vector3 forceDirection = throwPoint.forward * throwForce + throwPoint.up * upwardForce;
             rb.AddForce(forceDirection, ForceMode.VelocityChange);
         }
+
+        StartCoroutine(GrenadeCooldown());
+    }
+
+    private IEnumerator GrenadeCooldown()
+    {
+        canThrowGrenade = false; 
+        yield return new WaitForSeconds(grenadeCooldown); 
+        canThrowGrenade = true; 
     }
 }

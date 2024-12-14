@@ -8,7 +8,9 @@ public class ExplosionGrenade : MonoBehaviour
     [SerializeField] private float explosionRadius = 7f; 
     [SerializeField] private float explosionForce = 700f; 
     [SerializeField] private GameObject explosionEffect;
-    [SerializeField] private int hit = 60;
+    [SerializeField] public int hit = 60;
+
+    [SerializeField] private Bullet bullet;
 
     public GameObject objectToDestroy;
 
@@ -71,10 +73,11 @@ public class ExplosionGrenade : MonoBehaviour
                 health.health -= hit;
                 
             }
-            else if (nearbyObject.CompareTag("Enemy"))
+            if (nearbyObject.CompareTag("Enemy"))
             {
 
-                enemy.GetHit();
+                enemy.GetHit1();
+                //enemy.health -= hit;
 
             }
         }

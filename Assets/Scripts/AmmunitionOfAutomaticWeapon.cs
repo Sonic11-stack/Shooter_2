@@ -13,6 +13,8 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
     [SerializeField] private int replenishment = 60;
     [SerializeField] private int total = 60;
 
+    [SerializeField] public int hit = 20;
+
     [SerializeField] private GameObject bulletPrefab; 
     [SerializeField] private Transform shootPoint;    
     [SerializeField] private float bulletSpeed = 20f; 
@@ -110,10 +112,16 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
         }
     }
 
-    private void ShootBullet()
+    private void ShootBullet(string type)
     {
         GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * Quaternion.Euler(90, 0, 0));
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        if (bulletScript != null)
+        {
+            bulletScript.bulletType = type; 
+        }
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
@@ -190,7 +198,7 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
             Debug.Log("Out of ammo!");
             return;
         }
-        ShootBullet();
+        ShootBullet("Automatic");
         soundAutomaticWeapon.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();

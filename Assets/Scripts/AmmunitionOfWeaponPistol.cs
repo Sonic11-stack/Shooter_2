@@ -12,6 +12,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     [SerializeField] private int replenishment = 4;
     [SerializeField] private int total = 10;
 
+    [SerializeField] public int hit = 40;
+
     [SerializeField] private TextMeshProUGUI inventoryText;
 
     [SerializeField] private TakingThing thing;
@@ -85,10 +87,16 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         }
     }
 
-    private void ShootBullet()
+    private void ShootBullet(string type)
     {
         GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * Quaternion.Euler(90, 0, 0));
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        if (bulletScript != null)
+        {
+            bulletScript.bulletType = type;
+        }
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
@@ -173,7 +181,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     public void Shoot()
     {
-        ShootBullet();
+        ShootBullet("Pistol");
         soundPistol.PlayFirstMusic();
         inventory -= 1;
         UpdateInventoryText();

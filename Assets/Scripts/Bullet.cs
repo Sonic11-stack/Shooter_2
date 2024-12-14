@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject dentBullet;
 
-    
+    public string bulletType;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,8 +16,7 @@ public class Bullet : MonoBehaviour
             if (enemy != null)
             {
                 Vector3 hitPoint = transform.position;
-
-                enemy.GetHit();
+                enemy.GetHit(bulletType);
                 Destroy(gameObject);
             }
         }
