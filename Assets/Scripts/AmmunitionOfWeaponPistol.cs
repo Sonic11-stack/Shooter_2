@@ -29,6 +29,8 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     [SerializeField] private Sprite image;
 
+    [SerializeField] private GameObject imageGoal;
+
     [SerializeField] private Reload reload;
 
     public Transform itemInFrontOfCamera;
@@ -45,8 +47,19 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
     {
         if (itemInFrontOfCamera != null)
         {
-            itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.5f + cameraTransform.right * 0.2f + cameraTransform.up * -0.05f;
-            itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
+            if (Input.GetMouseButton(1))
+            {
+                imageGoal.SetActive(false);
+                itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.7f + cameraTransform.up * -0.05f;
+                itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
+            }
+
+            else
+            {
+                imageGoal.SetActive(true);
+                itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.5f + cameraTransform.right * 0.2f + cameraTransform.up * -0.05f;
+                itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
+            }
         }
     }
 

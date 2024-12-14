@@ -30,15 +30,58 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     [SerializeField] private Sprite image;
 
+    [SerializeField] private GameObject imageGoal;
+
     [SerializeField] private Reload reload;
 
+    public Transform itemInFrontOfCamera;
+    public Transform itemInFrontOfCamera1;
+    public Transform cameraTransform;
+
     private bool canFire = true;
+
+    [SerializeField] private Camera mainCamera; 
+    [SerializeField] private float normalFOV = 60f; 
+    [SerializeField] private float zoomedFOV = 30f; 
+    [SerializeField] private float zoomSpeed = 5f;
 
     private void Start()
     {
         camera = GetComponent<Camera>();
         UpdateInventoryText();
     }
+
+    private void LateUpdate()
+    {
+        if (itemInFrontOfCamera != null)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, Time.deltaTime * zoomSpeed);
+                imageGoal.SetActive(false);
+                //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f;
+                itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * -1.6f + cameraTransform.right * -0.02f + cameraTransform.up * -0.3f;
+                itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
+                itemInFrontOfCamera1.position = cameraTransform.position + cameraTransform.forward * -1.6f + cameraTransform.right * -0.02f + cameraTransform.up * -0.3f;
+                itemInFrontOfCamera1.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
+            }
+
+            else {
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, Time.deltaTime * zoomSpeed);
+                imageGoal.SetActive(true);
+                //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f + cameraTransform.up * -0.3f;
+                itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * -0.4f + cameraTransform.right * 0.4f + cameraTransform.up * -0.3f;
+                itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
+                itemInFrontOfCamera1.position = cameraTransform.position + cameraTransform.forward * -0.4f + cameraTransform.right * 0.4f + cameraTransform.up * -0.3f;
+                itemInFrontOfCamera1.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
+            }
+            
+            
+        }
+
+        
+    }
+
     public void Update()
     {
         UpdateInventoryText();
@@ -59,6 +102,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
             StartCoroutine(ShootWithCooldown());
         }
     }
+
 
     
     private void ShootBullet()
