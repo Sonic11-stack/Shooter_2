@@ -32,7 +32,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         //public Transform itemInFrontOfCamera; 
         //public Transform cameraTransform;
 
-        [SerializeField] private Endurance_Test controller;
+        //[SerializeField] private Endurance_Test controller;
 
         private Camera m_Camera;
         private bool m_Jump;
