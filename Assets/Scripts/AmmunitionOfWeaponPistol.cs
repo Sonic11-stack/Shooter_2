@@ -31,12 +31,25 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     [SerializeField] private Reload reload;
 
+    public Transform itemInFrontOfCamera;
+    public Transform cameraTransform;
+
     private bool canFire = true;
 
     private void Start()
     {
         UpdateInventoryText();
     }
+
+    private void LateUpdate()
+    {
+        if (itemInFrontOfCamera != null)
+        {
+            itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.5f + cameraTransform.right * 0.2f + cameraTransform.up * -0.05f;
+            itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
+        }
+    }
+
     public void Update()
     {
         UpdateInventoryText();

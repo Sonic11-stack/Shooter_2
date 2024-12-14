@@ -29,6 +29,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        //public Transform itemInFrontOfCamera; 
+        //public Transform cameraTransform;
+
         [SerializeField] private Endurance_Test controller;
 
         private Camera m_Camera;
@@ -211,6 +214,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Camera.transform.localPosition = newCameraPosition;
         }
+
+        /*private void LateUpdate()
+        {
+            if (itemInFrontOfCamera != null)
+            {
+                itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.7f + cameraTransform.right * 0.2f + cameraTransform.up * -0.05f;
+                itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
+            }
+        } */
 
 
         public void GetInput(out float speed)
