@@ -45,7 +45,7 @@ public class Health : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("firstAidKit"))
+        if (other.CompareTag("firstAidKit") && health != 100)
         {
             GetHealth();
             thing.PlayThingMusic();

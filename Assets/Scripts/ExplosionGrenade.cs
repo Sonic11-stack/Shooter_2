@@ -24,6 +24,8 @@ public class ExplosionGrenade : MonoBehaviour
 
     [SerializeField] private Health health;
 
+    [SerializeField] private Enemy enemy;
+
     [SerializeField] private ExplosionGrenade explo;
 
 
@@ -60,14 +62,20 @@ public class ExplosionGrenade : MonoBehaviour
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                //rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
 
             if (nearbyObject.CompareTag("Player"))
             {
                
-                    health.health -= hit;
+                health.health -= hit;
                 
+            }
+            else if (nearbyObject.CompareTag("Enemy"))
+            {
+
+                enemy.GetHit();
+
             }
         }
 

@@ -414,18 +414,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4343347, g: 1, b: 0.3830188, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: f8ade79ce65a65f4ebffa11cdc03407e, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1571,6 +1571,7 @@ MonoBehaviour:
   grenadeThrower: {fileID: 1762682289}
   makeSoundExplosion: {fileID: 741234960}
   health: {fileID: 1762682267}
+  enemy: {fileID: 808351760}
   explo: {fileID: 741234958}
 --- !u!82 &741234959
 AudioSource:
@@ -4262,9 +4263,9 @@ MonoBehaviour:
   total: 60
   bulletPrefab: {fileID: 2989000923634411228, guid: 44cdcd55c8562cc46b31e272eb09fc5b, type: 3}
   shootPoint: {fileID: 886720950}
-  bulletSpeed: 20
+  bulletSpeed: 50
   bulletLifetime: 2
-  maxDistance: 30
+  maxDistance: 70
   camera: {fileID: 1955021988}
   flash: {fileID: 100002, guid: 9ca9d23fe010cfe45b2e2026545e445b, type: 3}
   inventoryText: {fileID: 123036567}
@@ -4292,7 +4293,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949425265}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1cf04ad6ae416841bdf6b80dbc30b24, type: 3}
   m_Name: 
