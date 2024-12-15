@@ -40,6 +40,11 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
     private bool canFire = true;
 
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float normalFOV = 60f;
+    [SerializeField] private float zoomedFOV = 30f;
+    [SerializeField] private float zoomSpeed = 5f;
+
     private void Start()
     {
         UpdateInventoryText();
@@ -51,6 +56,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
         {
             if (Input.GetMouseButton(1))
             {
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, Time.deltaTime * zoomSpeed);
                 imageGoal.SetActive(false);
                 itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.7f + cameraTransform.up * -0.05f;
                 itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);
@@ -58,6 +64,7 @@ public class AmmunitionOfWeaponPistol : MonoBehaviour
 
             else
             {
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, Time.deltaTime * zoomSpeed);
                 imageGoal.SetActive(true);
                 itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.5f + cameraTransform.right * 0.2f + cameraTransform.up * -0.05f;
                 itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(180, 0, 180);

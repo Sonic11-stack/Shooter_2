@@ -12,6 +12,9 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private int replenishment = 3;
     [SerializeField] private int total = 5;
 
+    [SerializeField] public int inventoryGrenade = 2;
+    [SerializeField] public int replenishmentGrenade = 2;
+
     [SerializeField] public int hit = 100;
 
     [SerializeField] private GameObject bulletPrefab; 
@@ -28,7 +31,7 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private GameObject flash;
 
     [SerializeField] private TextMeshProUGUI inventoryText;
-    
+
 
     [SerializeField] private TakingThing thing;
     [SerializeField] private MakeSoundSniperRifle soundSniper;

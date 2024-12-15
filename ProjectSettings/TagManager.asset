@@ -9,6 +9,7 @@ TagManager:
   - CinemachineTarget
   - Enemy
   - Things
+  - Grenade
   layers:
   - Default
   - TransparentFX
