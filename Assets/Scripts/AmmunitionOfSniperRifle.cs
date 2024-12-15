@@ -54,6 +54,8 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     [SerializeField] private float zoomedFOV = 30f; 
     [SerializeField] private float zoomSpeed = 5f;
 
+    private bool useShootPoint1 = false;
+
     private void Start()
     {
         camera = GetComponent<Camera>();
@@ -64,35 +66,33 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
     {
         if (itemInFrontOfCamera != null)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1)) 
             {
                 shootPoint_1.SetActive(false);
                 shootPoint_1_2.SetActive(true);
+                SetShootPoint(true); 
                 mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, Time.deltaTime * zoomSpeed);
                 imageGoal.SetActive(false);
-                //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f;
+
                 itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * -1.6f + cameraTransform.right * -0.02f + cameraTransform.up * -0.3f;
                 itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
                 itemInFrontOfCamera1.position = cameraTransform.position + cameraTransform.forward * -1.6f + cameraTransform.right * -0.02f + cameraTransform.up * -0.3f;
                 itemInFrontOfCamera1.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
             }
-
-            else {
-                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, Time.deltaTime * zoomSpeed);
+            else
+            {
                 shootPoint_1.SetActive(true);
                 shootPoint_1_2.SetActive(false);
+                SetShootPoint(false); 
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, Time.deltaTime * zoomSpeed);
                 imageGoal.SetActive(true);
-                //itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * 0.4f + cameraTransform.up * -0.3f;
+
                 itemInFrontOfCamera.position = cameraTransform.position + cameraTransform.forward * -0.4f + cameraTransform.right * 0.4f + cameraTransform.up * -0.3f;
                 itemInFrontOfCamera.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
                 itemInFrontOfCamera1.position = cameraTransform.position + cameraTransform.forward * -0.4f + cameraTransform.right * 0.4f + cameraTransform.up * -0.3f;
                 itemInFrontOfCamera1.rotation = Quaternion.LookRotation(cameraTransform.forward) * Quaternion.Euler(0, 90, 0);
             }
-            
-            
         }
-
-        
     }
 
     public void Update()
@@ -138,34 +138,24 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
         StartCoroutine(DestroyBulletAfterDistance(bullet));
     }
 
-    private void ShootBullet1()
+    private void ShootBullet1(string type)
     {
-        GameObject flashWeapon = Instantiate(flash, shootPoint.position, shootPoint.rotation);
+        GameObject flashWeapon = Instantiate(flash, shootPoint1.position, shootPoint1.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, shootPoint1.position, shootPoint1.rotation * Quaternion.Euler(90, 0, 0));
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
 
-        GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+        if (bulletScript != null)
+        {
+            bulletScript.bulletType = type;
+        }
 
-        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        RaycastHit hit;
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = shootPoint1.forward * bulletSpeed;
+        }
 
-    Vector3 targetPoint;
-    if (Physics.Raycast(ray, out hit, maxDistance))
-    {
-        targetPoint = hit.point; 
-    }
-    else
-    {
-        targetPoint = ray.GetPoint(maxDistance); 
-    }
-
-    Vector3 direction = (targetPoint - shootPoint.position).normalized;
-
-    Rigidbody rb = bullet.GetComponent<Rigidbody>();
-    if (rb != null)
-    {
-        rb.velocity = direction * bulletSpeed;
-    }
-
-    Destroy(bullet, bulletLifetime);
+        StartCoroutine(DestroyBulletAfterDistance(bullet));
     }
 
     private IEnumerator DestroyBulletAfterDistance(GameObject bullet)
@@ -240,22 +230,24 @@ public class AmmunitionOfSniperRifle : MonoBehaviour
 
     public void Shoot()
     {
-        if (shootPoint_1 == false)
+        if (useShootPoint1)
         {
-            ShootBullet1();
-            soundSniper.PlayFirstMusic();
-            inventory -= 1;
-            UpdateInventoryText();
-            Debug.Log("Player shoot!");
+            ShootBullet1("Sniper");
         }
         else
         {
             ShootBullet("Sniper");
-            soundSniper.PlayFirstMusic();
-            inventory -= 1;
-            UpdateInventoryText();
-            Debug.Log("Player shoot!");
         }
+
+        soundSniper.PlayFirstMusic();
+        inventory -= 1;
+        UpdateInventoryText();
+        Debug.Log("Player shoot!");
+    }
+
+    public void SetShootPoint(bool usePoint1)
+    {
+        useShootPoint1 = usePoint1;
     }
 
     void OnTriggerEnter(Collider other)

@@ -82,6 +82,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //Cursor.visible = true;
             HandleCrouch();
 
+            
+
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
@@ -104,6 +106,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //Cursor.lockState = CursorLockMode.None;
             //Cursor.visible = true;
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            
         }
 
         private void HandleCrouch()
@@ -132,6 +136,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             float speed;
             GetInput(out speed);
+
+            
 
             Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
             RaycastHit hitInfo;
@@ -164,8 +170,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             UpdateCameraPosition(speed);
             m_MouseLook.UpdateCursorLock();
         }
-    
 
+        
 
         private void PlayJumpSound()
         {
@@ -254,7 +260,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
 
-            // ≈сли персонаж приседает, уменьшаем скорость
+            
             if (isCrouching)
             {
                 speed *= crouchSpeedMultiplier;

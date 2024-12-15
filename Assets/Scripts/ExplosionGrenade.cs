@@ -10,8 +10,6 @@ public class ExplosionGrenade : MonoBehaviour
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] public int hit = 60;
 
-    [SerializeField] private TakingThing thing;
-
     [SerializeField] private Bullet bullet;
 
     public GameObject objectToDestroy;
