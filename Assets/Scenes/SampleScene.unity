@@ -483,6 +483,7 @@ MonoBehaviour:
   normalFOV: 40
   zoomedFOV: 20
   zoomSpeed: 5
+  malfunctionProbability: 0.1
 --- !u!114 &115132633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,6 +2031,7 @@ GameObject:
   - component: {fileID: 592045373}
   - component: {fileID: 592045374}
   - component: {fileID: 592045375}
+  - component: {fileID: 592045377}
   m_Layer: 0
   m_Name: MakeSoundAutomaticWeapon
   m_TagString: Untagged
@@ -2053,6 +2055,8 @@ MonoBehaviour:
   audioSource: {fileID: 592045374}
   audioClip_1: {fileID: 8300000, guid: 9dc79e8e2f92f11449fdc66bbc1b5755, type: 3}
   audioSource_1: {fileID: 592045374}
+  audioClip_2: {fileID: 8300000, guid: 4510331a7c095134d86e45882c69bca1, type: 3}
+  audioSource_2: {fileID: 592045374}
   isShooting: 0
 --- !u!82 &592045374
 AudioSource:
@@ -2261,6 +2265,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &592045377
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592045372}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4510331a7c095134d86e45882c69bca1, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &625928961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,7 +2829,6 @@ MonoBehaviour:
   explosionForce: 700
   explosionEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
   hit: 60
-  thing: {fileID: 0}
   bullet: {fileID: 0}
   objectToDestroy: {fileID: 1698056052845220, guid: 5a2bf64643e1fb0439ea39c0fc9b00ff, type: 3}
   explodeGrenade: 0
@@ -3310,7 +3409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d812699fe2e4515439ea642a7e0093e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: dbd8ea60d00775d4ca935e95ae763359, type: 3}
+  audioClip: {fileID: 8300000, guid: 00cafa4c17d6f7f43b1045fcfda6ca1a, type: 3}
   audioSource: {fileID: 1202649423}
   audioClip_1: {fileID: 8300000, guid: 33fedefe9d7c1fc49904215d1ab89600, type: 3}
   audioSource_1: {fileID: 1202649423}
@@ -3324,7 +3423,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dbd8ea60d00775d4ca935e95ae763359, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 00cafa4c17d6f7f43b1045fcfda6ca1a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4181,7 +4280,7 @@ Transform:
   m_GameObject: {fileID: 1581647445}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.99999034, z: -0, w: 0.0044077015}
-  m_LocalPosition: {x: -0.0024859193, y: 0, z: -0.28198904}
+  m_LocalPosition: {x: 0.005, y: 0, z: -0.282}
   m_LocalScale: {x: 0.19495992, y: 0.18437125, z: 0.19257993}
   m_ConstrainProportionsScale: 0
   m_Children: []

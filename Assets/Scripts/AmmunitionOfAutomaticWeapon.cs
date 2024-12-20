@@ -51,6 +51,8 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
     [SerializeField] private float zoomedFOV = 30f;
     [SerializeField] private float zoomSpeed = 5f;
 
+    [SerializeField][Range(0f, 1f)] private float malfunctionProbability = 0.1f;
+
     private void Start()
     {
         UpdateInventoryText();
@@ -206,11 +208,36 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
             Debug.Log("Out of ammo!");
             return;
         }
-        ShootBullet("Automatic");
-        soundAutomaticWeapon.PlayFirstMusic();
-        inventory -= 1;
-        UpdateInventoryText();
-        Debug.Log("Player shoot!");
+
+        if (Random.value < malfunctionProbability)
+        {
+            Debug.Log("Weapon malfunction! Unable to shoot.");
+            if (soundAutomaticWeapon.isShooting)
+            {
+                soundAutomaticWeapon.isShooting = false;
+                soundAutomaticWeapon.StopShootingMusic();
+            }
+            soundAutomaticWeapon.PlayThirdMusic();
+            StartCoroutine(HandleMalfunction());
+            return;
+        }
+        if (canFire == true)
+        {
+            ShootBullet("Automatic");
+            soundAutomaticWeapon.PlayFirstMusic();
+            inventory -= 1;
+            UpdateInventoryText();
+            Debug.Log("Player shoot!");
+        }
+    }
+
+    private IEnumerator HandleMalfunction()
+    {
+        canFire = false;
+        Debug.Log("Fixing weapon...");
+        yield return new WaitForSeconds(2f); 
+        Debug.Log("Weapon fixed!");
+        canFire = true;
     }
 
     private void OnTriggerEnter(Collider other)
