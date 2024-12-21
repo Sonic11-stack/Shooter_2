@@ -240,9 +240,9 @@ public class AmmunitionOfAutomaticWeapon : MonoBehaviour
         canFire = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Bullets"))
+        if (other.gameObject.CompareTag("Bullets"))
         {
             Debug.Log("Player take the bullets!");
             thing.PlayThingMusic();

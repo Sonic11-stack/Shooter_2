@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private ExplosionGrenade explosionGrenade;
 
+    [SerializeField] private AI ai;
+
     public Image bar;
 
     [SerializeField] public int hit = 30;
@@ -44,6 +46,7 @@ public class Enemy : MonoBehaviour
         if (health <= damage)
         {
             health = 0;
+            ai.TakeDamage();
             Debug.Log("Враг повержен");
             Destroy(gameObject);
         }
